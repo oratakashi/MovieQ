@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/size_180"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:maxHeight="@dimen/size_220"
     app:cardCornerRadius="@dimen/radius_8"
     app:cardElevation="@dimen/elevation_5"
-    android:layout_margin="@dimen/margin_5">
+    android:layout_marginStart="@dimen/margin_16"
+    android:layout_marginBottom="@dimen/margin_10">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +22,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/foo"
+            android:maxLines="1"
             android:fontFamily="@font/semibold"
-            android:layout_margin="@dimen/margin_16"/>
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_10"/>
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/foo"
+            android:textSize="@dimen/font_12"
+            android:maxLines="1"
+            android:textColor="@color/primary"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_16"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

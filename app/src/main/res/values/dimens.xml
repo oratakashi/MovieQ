@@ -116,4 +116,5 @@
     <dimen name="padding_30">30dp</dimen>
     <dimen name="font_22">22sp</dimen>
     <dimen name="font_20">20sp</dimen>
+    <dimen name="margin_12">12dp</dimen>
 </resources>

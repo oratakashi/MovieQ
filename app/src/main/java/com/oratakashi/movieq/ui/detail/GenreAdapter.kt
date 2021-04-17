@@ -1,25 +1,21 @@
-package com.oratakashi.movieq.ui.genre
+package com.oratakashi.movieq.ui.detail
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.oratakashi.movieq.data.model.genre.DataGenre
-import com.oratakashi.movieq.databinding.AdapterGenreBinding
-import com.oratakashi.movieq.utils.Generator
+import com.oratakashi.movieq.databinding.AdapterGenreSmallBinding
 import com.oratakashi.viewbinding.core.ViewHolder
-import com.oratakashi.viewbinding.core.tools.onClick
 import com.oratakashi.viewbinding.core.viewBinding
 
-class GenreAdapter(private val onclick : (DataGenre) -> Unit) : RecyclerView.Adapter<ViewHolder<AdapterGenreBinding>>() {
+class GenreAdapter : RecyclerView.Adapter<ViewHolder<AdapterGenreSmallBinding>>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewHolder<AdapterGenreBinding> = viewBinding(parent)
+    ): ViewHolder<AdapterGenreSmallBinding> = viewBinding(parent)
 
-    override fun onBindViewHolder(holder: ViewHolder<AdapterGenreBinding>, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder<AdapterGenreSmallBinding>, position: Int) {
         with(holder.binding){
-            vBackground.setBackgroundColor(Generator.generateColor())
             tvText.text = data[position].name
-            root.onClick { onclick.invoke(data[position]) }
         }
     }
 

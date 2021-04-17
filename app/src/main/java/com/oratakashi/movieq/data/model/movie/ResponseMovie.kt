@@ -9,5 +9,6 @@ data class ResponseMovie(
     @SerializedName("poster_path") val poster_path : String?,
     @SerializedName("title") val title : String?,
     @SerializedName("overview") val overview : String?,
+    @SerializedName("release_date") val release_date : String?,
     @SerializedName("genres") val genres : List<DataGenre>,
 )

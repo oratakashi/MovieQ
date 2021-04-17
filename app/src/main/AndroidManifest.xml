@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieQ">
         <activity
-            android:name=".ui.detail.DetailActivity"
-            android:theme="@style/Theme.MovieQ.Detail" />
+            android:name=".ui.detail.DetailActivity" />
         <activity android:name=".ui.genre.GenreActivity" />
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
