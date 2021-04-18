@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowInsetsController
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -17,6 +18,8 @@ import com.oratakashi.movieq.R
 import com.oratakashi.movieq.data.`object`.DetailMovieObject
 import com.oratakashi.movieq.data.model.discover.DataDiscover
 import com.oratakashi.movieq.databinding.ActivityDetailBinding
+import com.oratakashi.movieq.ui.review.ReviewActivity
+import com.oratakashi.movieq.ui.trailer.TrailerActivity
 import com.oratakashi.movieq.utils.dateFormat
 import com.oratakashi.viewbinding.core.*
 import com.oratakashi.viewbinding.core.tools.*
@@ -25,7 +28,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
 
-    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with(binding){
@@ -58,6 +60,12 @@ class DetailActivity : AppCompatActivity() {
                     GridLayoutManager.HORIZONTAL,
                     false
                 )
+            }
+
+            rvReview.also {
+                it.adapter = review
+                it.layoutManager = LinearLayoutManager(this@DetailActivity)
+                it.addItemDecoration(DividerItemDecoration(this@DetailActivity, DividerItemDecoration.VERTICAL))
             }
 
             viewModel.state.observe(this@DetailActivity){
@@ -120,7 +128,11 @@ class DetailActivity : AppCompatActivity() {
                 transformations(RoundedCornersTransformation(25f))
             }
             tvTitle.text = data.movie.title
-            tvDate.dateFormat(data.movie.release_date!!, "yyyy-MM-dd", "dd MMMM yyyy")
+            if(data.movie.release_date != null && data.movie.release_date.isNotEmpty()){
+                tvDate.dateFormat(data.movie.release_date, "yyyy-MM-dd", "dd MMMM yyyy")
+            }else{
+                tvDate.text = getString(R.string.title_unknown)
+            }
             tvOverview.text = data.movie.overview
             tvUserReview.text = String.format(
                 getString(R.string.placeholder_user_review),
@@ -130,12 +142,35 @@ class DetailActivity : AppCompatActivity() {
             genre.submitList(data.movie.genres)
             if(data.cast.cast != null) cast.submitList(data.cast.cast)
             if(data.trailer.results != null) trailer.submitList(data.trailer.results)
-
+            if(data.review.results != null){
+                if(data.review.results.isNotEmpty()){
+                    llEmpty.gone()
+                    rvReview.visible()
+                    tvShowAll.visible()
+                    review.submitList(data.review.results)
+                    tvShowAll.onClick {
+                        startActivity(ReviewActivity::class.java) {
+                            it.putExtra("data", data.movie)
+                        }
+                    }
+                }else{
+                    llEmpty.visible()
+                    rvReview.gone()
+                    tvShowAll.gone()
+                }
+            }
+            if(data.movie.vote_average != null){
+                rbRatting.rating = (data.movie.vote_average / 2)
+                tvRatting.text = (data.movie.vote_average / 2).toString()
+            }
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun setupToolbar(){
         with(binding){
+            ivClose.onClick { onBackPressed() }
+            ivBack.onClick { onBackPressed() }
             tvToolbar.text = data.title
             tvEmpty.text = String.format(
                 getString(R.string.placeholder_empty_review),
@@ -198,7 +233,15 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private val trailer : TrailerAdapter by lazy {
-        TrailerAdapter()
+        TrailerAdapter { data ->
+            startActivity(TrailerActivity::class.java){
+                it.putExtra("data", data)
+            }
+        }
+    }
+
+    private val review : ReviewAdapter by lazy {
+        ReviewAdapter()
     }
 
     private val viewModel : DetailViewModel by viewModels()

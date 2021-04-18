@@ -6,4 +6,5 @@ data class DataReview(
     @SerializedName("author_details") val author_details : DataUser?,
     @SerializedName("content") val content : String?,
     @SerializedName("updated_at") val updated_at : String?,
+    @SerializedName("id") val id : String?,
 )

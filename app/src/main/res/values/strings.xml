@@ -13,4 +13,10 @@
     <string name="title_trailer">Trailer</string>
     <string name="title_show_all">Show All</string>
     <string name="title_try_again">Try Again</string>
+    <string name="title_unknown">Unknown</string>
+    <string name="title_open_in_youtube">Open in YouTube</string>
+    <string name="title_zero">0</string>
+    <string name="title_rattings_and_reviews">Ratings and reviews</string>
+    <string name="title_oratakashi_id">Oratakashi.id</string>
+    <string name="title_from">From</string>
 </resources>

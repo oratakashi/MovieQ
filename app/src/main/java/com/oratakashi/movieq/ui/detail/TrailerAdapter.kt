@@ -8,9 +8,12 @@ import com.oratakashi.movieq.R
 import com.oratakashi.movieq.data.model.trailer.DataTrailer
 import com.oratakashi.movieq.databinding.AdapterTrailerBinding
 import com.oratakashi.viewbinding.core.ViewHolder
+import com.oratakashi.viewbinding.core.tools.onClick
 import com.oratakashi.viewbinding.core.viewBinding
 
-class TrailerAdapter : RecyclerView.Adapter<ViewHolder<AdapterTrailerBinding>>(){
+class TrailerAdapter (
+    private val onClick : (DataTrailer) -> Unit
+        ) : RecyclerView.Adapter<ViewHolder<AdapterTrailerBinding>>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -25,6 +28,7 @@ class TrailerAdapter : RecyclerView.Adapter<ViewHolder<AdapterTrailerBinding>>()
                 crossfade(true)
                 placeholder(R.drawable.placeholder_landscape)
             }
+            root.onClick { onClick.invoke(data[position]) }
         }
     }
 

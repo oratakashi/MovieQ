@@ -4,10 +4,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.oratakashi.movieq.data.model.discover.DataDiscover
+import com.oratakashi.movieq.data.model.review.DataReview
 import com.oratakashi.movieq.data.repository.remote.RemoteRepository
 import com.oratakashi.movieq.ui.detail.DetailState
 import com.oratakashi.movieq.ui.genre.GenreState
 import com.oratakashi.movieq.ui.main.DiscoverState
+import com.oratakashi.movieq.ui.review.ReviewState
 import javax.inject.Inject
 
 class DataRepository @Inject constructor(
@@ -28,5 +30,14 @@ class DataRepository @Inject constructor(
         lifecycleOwner: LifecycleOwner
     ) {
         remoteRepository.getDiscover(genre, callback, data, lifecycleOwner)
+    }
+
+    override fun getReview(
+        id: String,
+        callback: MutableLiveData<ReviewState>,
+        data: MutableLiveData<PagedList<DataReview>>,
+        lifecycleOwner: LifecycleOwner
+    ) {
+        remoteRepository.getReview(id, callback, data, lifecycleOwner)
     }
 }

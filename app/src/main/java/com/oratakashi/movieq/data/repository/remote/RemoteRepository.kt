@@ -7,11 +7,13 @@ import androidx.paging.PagedList
 import com.oratakashi.movieq.data.`object`.DetailMovieObject
 import com.oratakashi.movieq.data.factory.Factory
 import com.oratakashi.movieq.data.model.discover.DataDiscover
+import com.oratakashi.movieq.data.model.review.DataReview
 import com.oratakashi.movieq.data.network.ApiEndpoint
 import com.oratakashi.movieq.data.repository.Repository
 import com.oratakashi.movieq.ui.detail.DetailState
 import com.oratakashi.movieq.ui.genre.GenreState
 import com.oratakashi.movieq.ui.main.DiscoverState
+import com.oratakashi.movieq.ui.review.ReviewState
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -60,6 +62,18 @@ class RemoteRepository @Inject constructor(
     ) {
         LivePagedListBuilder(
             factory.discover.also { it.liveData = callback;it.genre = genre },
+            10
+        ).build().observe(lifecycleOwner, data::postValue)
+    }
+
+    override fun getReview(
+        id: String,
+        callback: MutableLiveData<ReviewState>,
+        data: MutableLiveData<PagedList<DataReview>>,
+        lifecycleOwner: LifecycleOwner
+    ) {
+        LivePagedListBuilder(
+            factory.review.also { it.liveData = callback;it.id = id },
             10
         ).build().observe(lifecycleOwner, data::postValue)
     }

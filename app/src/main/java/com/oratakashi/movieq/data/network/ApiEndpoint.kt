@@ -23,6 +23,12 @@ interface ApiEndpoint {
         @Query("sort_by") sortBy: String = "popularity.desc"
     ): Single<ResponseDiscover>
 
+    @GET("movie/{id}/reviews")
+    fun getReviews(
+        @Path("id") id : String,
+        @Query("page") page : Int
+    ) : Single<ResponseReview>
+
     @GET("movie/{id}")
     fun getObsMovie(
         @Path("id") id: Int
