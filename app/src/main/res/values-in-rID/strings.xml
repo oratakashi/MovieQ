@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MovieQ</string>
+    <string name="title_genre">Genre</string>
+    <string name="title_select_your_favorite_genre">Pilih Genre Favorite Kamu</string>
+    <string name="placeholder_sub_genre">Koleksi Film dengan Genre %1$s</string>
+    <string name="title_cast">Aktor</string>
+    <string name="title_open_in_youtube">Buka di YouTube</string>
+    <string name="title_overview">Rangkuman</string>
+    <string name="title_rattings_and_reviews">Rating dan review</string>
+    <string name="title_show_all">Tampilkan Semua</string>
+    <string name="title_try_again">Coba lagi</string>
+    <string name="placeholder_user_review">Review Pengguna ( %1$s )</string>
+    <string name="placeholder_empty_review">Kami tidak memiliki review apapun untuk %1$s</string>
+    <string name="title_unknown">Tidak diketahui</string>
+</resources>

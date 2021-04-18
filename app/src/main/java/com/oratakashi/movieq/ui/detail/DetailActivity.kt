@@ -133,7 +133,11 @@ class DetailActivity : AppCompatActivity() {
             }else{
                 tvDate.text = getString(R.string.title_unknown)
             }
-            tvOverview.text = data.movie.overview
+            tvOverview.text = if(data.movie.overview!!.isNotEmpty()){
+                data.movie.overview
+            }else{
+                getString(R.string.title_unknown)
+            }
             tvUserReview.text = String.format(
                 getString(R.string.placeholder_user_review),
                 data.review.total_results
