@@ -3,6 +3,8 @@ package com.oratakashi.movieq.ui.review
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.oratakashi.movieq.BuildConfig
 import com.oratakashi.movieq.R
 import com.oratakashi.movieq.data.model.review.DataReview
@@ -22,23 +24,19 @@ class ReviewAdapter : PagedListAdapter<DataReview, ViewHolder<AdapterReviewBindi
     override fun onBindViewHolder(holder: ViewHolder<AdapterReviewBinding>, position: Int) {
         with(holder.binding){
             if(getItem(position)?.author_details?.avatar_path != null){
-                Picasso.get()
-                    .load(
-                        when(
-                            getItem(position)?.author_details?.avatar_path!!.contains("http") ||
-                                    getItem(position)?.author_details?.avatar_path!!.contains("https")
-                        ){
-                            false   -> {
-                                BuildConfig.IMAGE_URL + getItem(position)?.author_details?.avatar_path
-                            }
-                            true    -> {
-                                getItem(position)?.author_details?.avatar_path!!.substring(1)
-                            }
-                        }
-                    )
-                    .placeholder(R.drawable.placeholder_portrait)
-                    .error(R.drawable.placeholder_portrait)
-                    .into(ivImage)
+                ivImage.load(when(
+                    getItem(position)?.author_details?.avatar_path!!.contains("http") ||
+                            getItem(position)?.author_details?.avatar_path!!.contains("https")
+                ){
+                    false   -> {
+                        BuildConfig.IMAGE_URL + getItem(position)?.author_details?.avatar_path
+                    }
+                    true    -> {
+                        getItem(position)?.author_details?.avatar_path!!.substring(1)
+                    }
+                }){
+                    transformations(CircleCropTransformation())
+                }
             }
             tvName.text = getItem(position)?.author_details?.username
             tvDate.dateFormat(

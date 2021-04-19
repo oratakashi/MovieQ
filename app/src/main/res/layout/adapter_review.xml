@@ -7,13 +7,12 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/margin_16">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/ivImage"
         android:layout_width="@dimen/size_42"
         android:layout_height="@dimen/size_42"
         android:layout_marginStart="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_16"
-        android:scaleType="centerCrop"
         android:elevation="@dimen/elevation_3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

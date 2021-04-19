@@ -24,23 +24,36 @@ class ReviewAdapter : RecyclerView.Adapter<ViewHolder<AdapterReviewBinding>>() {
     override fun onBindViewHolder(holder: ViewHolder<AdapterReviewBinding>, position: Int) {
         with(holder.binding){
             if(data[position].author_details?.avatar_path != null){
-                Picasso.get()
-                    .load(
-                        when(
-                            data[position].author_details?.avatar_path!!.contains("http") ||
-                                    data[position].author_details?.avatar_path!!.contains("https")
-                        ){
-                            false   -> {
-                                BuildConfig.IMAGE_URL + data[position].author_details?.avatar_path
-                            }
-                            true    -> {
-                                data[position].author_details?.avatar_path!!.substring(1)
-                            }
-                        }
-                    )
-                    .placeholder(R.drawable.placeholder_portrait)
-                    .error(R.drawable.placeholder_portrait)
-                    .into(ivImage)
+                ivImage.load(when(
+                    data[position].author_details?.avatar_path!!.contains("http") ||
+                            data[position].author_details?.avatar_path!!.contains("https")
+                ){
+                    false   -> {
+                        BuildConfig.IMAGE_URL + data[position].author_details?.avatar_path
+                    }
+                    true    -> {
+                        data[position].author_details?.avatar_path!!.substring(1)
+                    }
+                }){
+                    transformations(CircleCropTransformation())
+                }
+//                Picasso.get()
+//                    .load(
+//                        when(
+//                            data[position].author_details?.avatar_path!!.contains("http") ||
+//                                    data[position].author_details?.avatar_path!!.contains("https")
+//                        ){
+//                            false   -> {
+//                                BuildConfig.IMAGE_URL + data[position].author_details?.avatar_path
+//                            }
+//                            true    -> {
+//                                data[position].author_details?.avatar_path!!.substring(1)
+//                            }
+//                        }
+//                    )
+//                    .placeholder(R.drawable.placeholder_portrait)
+//                    .error(R.drawable.placeholder_portrait)
+//                    .into(ivImage)
             }
             tvName.text = data[position].author_details?.username
             tvDate.dateFormat(
