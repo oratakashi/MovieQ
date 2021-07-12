@@ -105,7 +105,7 @@ dependencies {
     //Loading
     implementation "com.airbnb.android:lottie:3.6.0"
 
-    implementation 'com.oratakashi:AndroidViewBinding:2.3'
+    implementation 'com.oratakashi:AndroidViewBinding:2.4'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

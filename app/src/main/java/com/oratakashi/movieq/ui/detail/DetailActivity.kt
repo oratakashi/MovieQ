@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsetsController
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,7 +29,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with(binding){
+        with(binding) {
             setupToolbar()
 
             rvGenre.also {
@@ -65,11 +64,16 @@ class DetailActivity : AppCompatActivity() {
             rvReview.also {
                 it.adapter = review
                 it.layoutManager = LinearLayoutManager(this@DetailActivity)
-                it.addItemDecoration(DividerItemDecoration(this@DetailActivity, DividerItemDecoration.VERTICAL))
+                it.addItemDecoration(
+                    DividerItemDecoration(
+                        this@DetailActivity,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
             }
 
-            viewModel.state.observe(this@DetailActivity){
-                when(it){
+            viewModel.state.observe(this@DetailActivity) {
+                when (it) {
                     is DetailState.Loading -> {
                         nsContent.gone()
                         toolbar.visible()
@@ -116,26 +120,26 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupUI(data: DetailMovieObject){
-        with(binding){
-            ivBackground.load(BuildConfig.IMAGE_URL + data.movie.backdrop_path){
+    private fun setupUI(data: DetailMovieObject) {
+        with(binding) {
+            ivBackground.load(BuildConfig.IMAGE_URL + data.movie.backdrop_path) {
                 crossfade(true)
                 placeholder(R.drawable.placeholder_landscape)
             }
-            ivImage.load(BuildConfig.IMAGE_URL + data.movie.poster_path){
+            ivImage.load(BuildConfig.IMAGE_URL + data.movie.poster_path) {
                 crossfade(true)
                 placeholder(R.drawable.placeholder_portrait)
                 transformations(RoundedCornersTransformation(25f))
             }
             tvTitle.text = data.movie.title
-            if(data.movie.release_date != null && data.movie.release_date.isNotEmpty()){
+            if (data.movie.release_date != null && data.movie.release_date.isNotEmpty()) {
                 tvDate.dateFormat(data.movie.release_date, "yyyy-MM-dd", "dd MMMM yyyy")
-            }else{
+            } else {
                 tvDate.text = getString(R.string.title_unknown)
             }
-            tvOverview.text = if(data.movie.overview!!.isNotEmpty()){
+            tvOverview.text = if (data.movie.overview!!.isNotEmpty()) {
                 data.movie.overview
-            }else{
+            } else {
                 getString(R.string.title_unknown)
             }
             tvUserReview.text = String.format(
@@ -144,10 +148,10 @@ class DetailActivity : AppCompatActivity() {
             )
 
             genre.submitList(data.movie.genres)
-            if(data.cast.cast != null) cast.submitList(data.cast.cast)
-            if(data.trailer.results != null) trailer.submitList(data.trailer.results)
-            if(data.review.results != null){
-                if(data.review.results.isNotEmpty()){
+            if (data.cast.cast != null) cast.submitList(data.cast.cast)
+            if (data.trailer.results != null) trailer.submitList(data.trailer.results)
+            if (data.review.results != null) {
+                if (data.review.results.isNotEmpty()) {
                     llEmpty.gone()
                     rvReview.visible()
                     tvShowAll.visible()
@@ -157,13 +161,13 @@ class DetailActivity : AppCompatActivity() {
                             it.putExtra("data", data.movie)
                         }
                     }
-                }else{
+                } else {
                     llEmpty.visible()
                     rvReview.gone()
                     tvShowAll.gone()
                 }
             }
-            if(data.movie.vote_average != null){
+            if (data.movie.vote_average != null) {
                 rbRatting.rating = (data.movie.vote_average / 2)
                 tvRatting.text = (data.movie.vote_average / 2).toString()
             }
@@ -171,8 +175,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     @Suppress("DEPRECATION")
-    private fun setupToolbar(){
-        with(binding){
+    private fun setupToolbar() {
+        with(binding) {
             ivClose.onClick { onBackPressed() }
             ivBack.onClick { onBackPressed() }
             tvToolbar.text = data.title
@@ -183,40 +187,46 @@ class DetailActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                     Configuration.UI_MODE_NIGHT_YES -> {
-                        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                        window.decorView.systemUiVisibility =
+                            (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
                     }
-                    Configuration.UI_MODE_NIGHT_NO  -> {
-                        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        window.decorView.systemUiVisibility =
+                            (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
                     }
                 }
             } else {
                 window.setDecorFitsSystemWindows(true)
             }
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 nsContent.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                    if(scrollY > 250){
+                    if (scrollY > 250) {
                         toolbar.visible()
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                             when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                                 Configuration.UI_MODE_NIGHT_YES -> {
-                                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                                    window.decorView.systemUiVisibility =
+                                        View.SYSTEM_UI_FLAG_VISIBLE
                                 }
-                                Configuration.UI_MODE_NIGHT_NO  -> {
-                                    window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+                                Configuration.UI_MODE_NIGHT_NO -> {
+                                    window.decorView.systemUiVisibility =
+                                        (View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
                                 }
                             }
                         } else {
                             window.setDecorFitsSystemWindows(true)
                         }
-                    }else{
+                    } else {
                         toolbar.invisible()
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                             when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                                 Configuration.UI_MODE_NIGHT_YES -> {
-                                    window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                                    window.decorView.systemUiVisibility =
+                                        (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
                                 }
-                                Configuration.UI_MODE_NIGHT_NO  -> {
-                                    window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                                Configuration.UI_MODE_NIGHT_NO -> {
+                                    window.decorView.systemUiVisibility =
+                                        (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
                                 }
                             }
                         } else {
@@ -228,27 +238,27 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private val genre : GenreAdapter by lazy {
+    private val genre: GenreAdapter by lazy {
         GenreAdapter()
     }
 
-    private val cast : CastAdapter by lazy {
+    private val cast: CastAdapter by lazy {
         CastAdapter()
     }
 
-    private val trailer : TrailerAdapter by lazy {
+    private val trailer: TrailerAdapter by lazy {
         TrailerAdapter { data ->
-            startActivity(TrailerActivity::class.java){
+            startActivity(TrailerActivity::class.java) {
                 it.putExtra("data", data)
             }
         }
     }
 
-    private val review : ReviewAdapter by lazy {
+    private val review: ReviewAdapter by lazy {
         ReviewAdapter()
     }
 
-    private val viewModel : DetailViewModel by viewModels()
-    private val binding : ActivityDetailBinding by viewBinding()
-    private val data : DataDiscover by intent("data")
+    private val viewModel: DetailViewModel by viewModels()
+    private val binding: ActivityDetailBinding by viewBinding()
+    private val data: DataDiscover by intent("data")
 }
